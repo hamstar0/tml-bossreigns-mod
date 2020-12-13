@@ -1,0 +1,14 @@
+v1
+-	Add API for adjusting reign ticks
+-	Implement boss killing to restore time
+	-	Subtract from PKE by a given amount per boss killed (capped?)
+
+	-	Store snapshot of killed bossed per world
+	-	Add BC mod dependency
+-	Set initial 'reign' event to use 2x duration
+-	Implement PKE tracking
+-	After a given elapsed time, create world locking event
+	-	Create bramble trails
+	-	Disable orbs
+-	Set world to increase a 'boss presence' meter over time
+-	Setup project
