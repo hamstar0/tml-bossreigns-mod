@@ -1,10 +1,10 @@
+using Terraria;
 using Terraria.ModLoader;
 using HamstarHelpers.Services.Timers;
-using CursedBrambles;
 
 
 namespace BossReigns {
-	class BossReignsPlayer : ModPlayer {
+	partial class BossReignsPlayer : ModPlayer {
 		public override void PreUpdate() {
 			string timerName = "BossReignsBrambles_" + this.player.whoAmI;
 
@@ -24,10 +24,8 @@ namespace BossReigns {
 			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
 			bool isReign = myworld.ElapsedPresenceTicks >= maxTicks;
 
-			if( isReign ) {
-				CursedBramblesAPI.SetPlayerToCreateBrambleWake( this.player, 64, 15 );
-			} else {
-				CursedBramblesAPI.UnsetPlayerToCreateBrambleWake( this.player );
+			if( ModLoader.GetMod("CursedBrambles") != null ) {
+				BossReignsPlayer.UpdateReignCursedBrambles( this.player, isReign );
 			}
 
 			return isReign;

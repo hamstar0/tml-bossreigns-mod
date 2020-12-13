@@ -1,8 +1,8 @@
 v1
 -	Add API for adjusting reign ticks
+
 -	Implement boss killing to restore time
 	-	Subtract from PKE by a given amount per boss killed (capped?)
-
 	-	Store snapshot of killed bossed per world
 	-	Add BC mod dependency
 -	Set initial 'reign' event to use 2x duration

@@ -1,5 +1,4 @@
 using Terraria.ModLoader;
-using Orbs;
 
 
 namespace BossReigns {
@@ -38,44 +37,12 @@ namespace BossReigns {
 			var config = BossReignsConfig.Instance;
 			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
 
-			if( myworld.ElapsedPresenceTicks >= maxTicks ) {
-				this.ApplyReignEffects();
-			} else {
-				this.UnapplyReignEffects();
-			}
-		}
-
-
-		////////////////
-
-		private bool? _OldEnableOrbUseUponTiles = null;
-		private string _OldOrbDisabledMessage = null;
-
-		public void ApplyReignEffects() {
-			var orbConfig = OrbsConfig.Instance;
-
-			this._OldEnableOrbUseUponTiles = orbConfig.Get<bool>( nameof(orbConfig.EnableOrbUseUponTiles) );
-			this._OldOrbDisabledMessage = orbConfig.Get<string>( nameof(orbConfig.OrbDisabledMessage) );
-
-			orbConfig.SetOverride<bool>( "EnableOrbUseUponTiles", false );
-			orbConfig.SetOverride<string>( "OrbDisabledMessage", "PKE interference disrupts orb use." );
-		}
-
-		public void UnapplyReignEffects() {
-			var orbConfig = OrbsConfig.Instance;
-
-			if( this._OldEnableOrbUseUponTiles.HasValue ) {
-				orbConfig.SetOverride<bool>( "EnableOrbUseUponTiles", this._OldEnableOrbUseUponTiles.Value );
-				this._OldEnableOrbUseUponTiles = null;
-			} else {
-				orbConfig.UnsetOverride<bool>( "EnableOrbUseUponTiles" );
-			}
-
-			if( this._OldOrbDisabledMessage != null ) {
-				orbConfig.SetOverride<string>( "OrbDisabledMessage", this._OldOrbDisabledMessage );
-				this._OldOrbDisabledMessage = null;
-			} else {
-				orbConfig.UnsetOverride<string>( "OrbDisabledMessage" );
+			if( ModLoader.GetMod("Orbs") != null ) {
+				if( myworld.ElapsedPresenceTicks >= maxTicks ) {
+					BossReignsMod.ApplyOrbsBossReignEffects();
+				} else {
+					BossReignsMod.UnapplyOrbsBossReignEffects();
+				}
 			}
 		}
 	}
