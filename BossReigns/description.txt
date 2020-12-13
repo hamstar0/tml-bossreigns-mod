@@ -1,1 +1,1 @@
-Boss Reigns is a pretty cool mod, it does...this. Modify this file with a description of your mod.
+Failing to kill a boss after 3 days (by default) causes access to caves of the world to be blocked by supernatural forces. Configurable.
