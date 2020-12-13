@@ -35,13 +35,18 @@ namespace BossReigns {
 		public override void Load( TagCompound tag ) {
 			this.DownedBossesSnapshot.Clear();
 
+			var config = BossReignsConfig.Instance;
+
 			if( tag.ContainsKey("elapsed_ticks") ) {
 				this.ElapsedPresenceTicks = tag.GetInt( "elapsed_ticks" );
 			} else {
-				var config = BossReignsConfig.Instance;
-				this.ElapsedPresenceTicks -= config.Get<int>( nameof(config.AddedTicksUntilFirstReign) );
+				this.ElapsedPresenceTicks = -config.Get<int>( nameof(config.AddedTicksUntilFirstReign) );
 
 				LogHelpers.Log( "Added to timer for initial boss reign." );
+			}
+
+			if( config.DebugModeFastTime ) {
+				this.ElapsedPresenceTicks /= 60;
 			}
 
 			if( tag.ContainsKey("bc_snapshot_count") ) {
@@ -125,6 +130,11 @@ namespace BossReigns {
 			int minTicks = config.Get<int>( nameof(config.LowestAmountTicksBeforeReign) );
 			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
 
+			if( config.DebugModeFastTime ) {
+				minTicks /= 60;
+				maxTicks /= 60;
+			}
+
 			if( this.ElapsedPresenceTicks < minTicks ) {
 				this.ElapsedPresenceTicks = minTicks;
 			}
@@ -143,8 +153,14 @@ namespace BossReigns {
 
 			var config = BossReignsConfig.Instance;
 			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
+			int subTicks = config.Get<int>( nameof( config.TicksRemovedFromEachBossKill ) );
 
-			this.ElapsedPresenceTicks -= config.Get<int>( nameof(config.TicksRemovedFromEachBossKill) );
+			if( config.DebugModeFastTime ) {
+				maxTicks /= 60;
+				subTicks /= 60;
+			}
+
+			this.ElapsedPresenceTicks -= subTicks;
 
 			if( config.DebugModeInfo ) {
 				Main.NewText( "Boss "+boss+" kill detected. Ticks until reign: "

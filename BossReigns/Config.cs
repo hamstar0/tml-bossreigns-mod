@@ -23,6 +23,8 @@ namespace BossReigns {
 		////////////////
 
 		public bool DebugModeInfo { get; set; } = false;
+
+		public bool DebugModeFastTime { get; set; } = false;
 		
 		////
 

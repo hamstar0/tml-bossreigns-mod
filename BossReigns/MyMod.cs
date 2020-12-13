@@ -37,6 +37,10 @@ namespace BossReigns {
 			var config = BossReignsConfig.Instance;
 			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
 
+			if( config.DebugModeFastTime ) {
+				maxTicks /= 60;
+			}
+
 			if( ModLoader.GetMod("Orbs") != null ) {
 				if( myworld.ElapsedPresenceTicks >= maxTicks ) {
 					BossReignsMod.ApplyOrbsBossReignEffects();

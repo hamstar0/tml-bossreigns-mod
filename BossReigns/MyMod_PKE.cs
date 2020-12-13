@@ -39,6 +39,10 @@ namespace BossReigns {
 			var config = BossReignsConfig.Instance;
 			double maxTicks = (double)config.Get<int>( nameof(config.TicksUntilReign) );
 
+			if( config.DebugModeFastTime ) {
+				maxTicks /= 60d;
+			}
+
 			return MathHelper.Clamp( (float)(elapsedTicks / maxTicks), 0f, 1f );
 		}
 	}

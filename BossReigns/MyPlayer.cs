@@ -22,6 +22,11 @@ namespace BossReigns {
 			var myworld = ModContent.GetInstance<BossReignsWorld>();
 			var config = BossReignsConfig.Instance;
 			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
+
+			if( config.DebugModeFastTime ) {
+				maxTicks /= 60;
+			}
+
 			bool isReign = myworld.ElapsedPresenceTicks >= maxTicks;
 
 			if( ModLoader.GetMod("CursedBrambles") != null ) {
