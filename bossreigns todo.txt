@@ -1,5 +1,5 @@
 v1
--	Add API for adjusting reign ticks
+-	Add API (get ticks, adjust ticks)
 
 -	Implement boss killing to restore time
 	-	Subtract from PKE by a given amount per boss killed (capped?)
