@@ -11,6 +11,11 @@ namespace BossReigns {
 		////////////////
 
 		public static void ApplyOrbsBossReignEffects() {
+			var config = BossReignsConfig.Instance;
+			if( !config.Get<bool>( nameof(config.BlockOrbUseDuringReign) ) ) {
+				return;
+			}
+
 			var orbConfig = Orbs.OrbsConfig.Instance;
 
 			BossReignsMod._OldEnableOrbUseUponTiles = orbConfig.Get<bool>( nameof(orbConfig.EnableOrbUseUponTiles) );
@@ -21,19 +26,22 @@ namespace BossReigns {
 		}
 
 		public static void UnapplyOrbsBossReignEffects() {
+			var config = BossReignsConfig.Instance;
+			bool noOrbBlocking = config.Get<bool>( nameof( config.BlockOrbUseDuringReign ) );
+
 			var orbConfig = Orbs.OrbsConfig.Instance;
 
 			if( BossReignsMod._OldEnableOrbUseUponTiles.HasValue ) {
 				orbConfig.SetOverride<bool>( "EnableOrbUseUponTiles", BossReignsMod._OldEnableOrbUseUponTiles.Value );
 				BossReignsMod._OldEnableOrbUseUponTiles = null;
-			} else {
+			} else if( !noOrbBlocking ) {
 				orbConfig.UnsetOverride<bool>( "EnableOrbUseUponTiles" );
 			}
 
 			if( BossReignsMod._OldOrbDisabledMessage != null ) {
 				orbConfig.SetOverride<string>( "OrbDisabledMessage", BossReignsMod._OldOrbDisabledMessage );
 				BossReignsMod._OldOrbDisabledMessage = null;
-			} else {
+			} else if( !noOrbBlocking ) {
 				orbConfig.UnsetOverride<string>( "OrbDisabledMessage" );
 			}
 		}

@@ -5,8 +5,6 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using HamstarHelpers.Helpers.Debug;
-using HamstarHelpers.Helpers.DotNET.Extensions;
-using HamstarHelpers.Services.Mods.BossChecklist;
 
 
 namespace BossReigns {
@@ -39,10 +37,6 @@ namespace BossReigns {
 
 			if( tag.ContainsKey("elapsed_ticks") ) {
 				this.ElapsedPresenceTicks = tag.GetInt( "elapsed_ticks" );
-			} else {
-				this.ElapsedPresenceTicks = -config.Get<int>( nameof(config.AddedTicksUntilFirstReign) );
-
-				LogHelpers.Log( "Added to timer for initial boss reign." );
 			}
 
 			if( config.DebugModeFastTime ) {
@@ -94,7 +88,7 @@ namespace BossReigns {
 
 
 		////////////////
-
+		
 		 private int _BossCheckTimer = 0;
 
 		public override void PreUpdate() {
@@ -113,35 +107,13 @@ namespace BossReigns {
 
 		////////////////
 
-		private void UpdateBossDownedCheck() {
-			foreach( (string boss, BossChecklistService.BossInfo info) in BossChecklistService.BossInfoTable ) {
-				if( !info.IsDowned() ) {
-					continue;
-				}
-
-				if( !this.DownedBossesSnapshot.Contains(boss) ) {
-					this.RegisterBossKill( boss );
-				}
-			}
-		}
-
-		private void UpdateReignBuildup() {
+		public override void PostWorldGen() {
 			var config = BossReignsConfig.Instance;
-			int minTicks = config.Get<int>( nameof(config.LowestAmountTicksBeforeReign) );
-			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
+			int addedTicks = config.Get<int>( nameof(config.AddedTicksUntilFirstReign) );
 
-			if( config.DebugModeFastTime ) {
-				minTicks /= 60;
-				maxTicks /= 60;
-			}
-
-			if( this.ElapsedPresenceTicks < minTicks ) {
-				this.ElapsedPresenceTicks = minTicks;
-			}
-
-			this.ElapsedPresenceTicks++;
-			if( this.ElapsedPresenceTicks > maxTicks ) {
-				this.ElapsedPresenceTicks = maxTicks;
+			if( addedTicks > 0 ) {
+				this.ElapsedPresenceTicks = -addedTicks;
+				LogHelpers.Log( "Added " + addedTicks + " ticks to timer for initial boss reign." );
 			}
 		}
 

@@ -25,9 +25,16 @@ namespace BossReigns {
 		public bool DebugModeInfo { get; set; } = false;
 
 		public bool DebugModeFastTime { get; set; } = false;
-		
+
 		////
 
+		[DefaultValue( true )]
+		public bool BlockOrbUseDuringReign { get; set; } = true;
+		
+		public bool CreateUndergroundCursedBramblesDuringReign { get; set; } = false;
+		
+		////
+		
 		[Range( 60 * 60, 60 * 60 * 24 * 100 )]
 		[DefaultValue( 60 * 60 * 24 * 3 )]
 		public int AddedTicksUntilFirstReign { get; set; } = 60 * 60 * 24 * 3;	// 3 days
