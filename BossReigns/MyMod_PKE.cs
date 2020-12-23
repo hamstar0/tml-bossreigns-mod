@@ -2,6 +2,7 @@ using System;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using HamstarHelpers.Helpers.Debug;
 
 
 namespace BossReigns {
@@ -13,33 +14,43 @@ namespace BossReigns {
 		////////////////
 
 		public static void InitializePKE() {
-			PKEMeter.Logic.PKEText meterTextFunc = PKEMeter.PKEMeterAPI.GetMeterText();
 			PKEMeter.Logic.PKEGauge gauge = PKEMeter.PKEMeterAPI.GetGauge();
-			int timer = 0;
+			PKEMeter.Logic.PKEText meterTextFunc = PKEMeter.PKEMeterAPI.GetMeterText();
+
+			int gaugeTimer = 0;
+			int textTimer = 0;
 
 			PKEMeter.PKEMeterAPI.SetGauge( ( plr, pos ) => {
 				(float b, float g, float y, float r) existingGauge = gauge?.Invoke( plr, pos )
 					?? (0f, 0f, 0f, 0f);
 
-				if( timer-- <= 0 ) {
-					timer = 10;
+				if( gaugeTimer-- <= 0 ) {
+					gaugeTimer = 10;
 					BossReignsMod.LastGaugedBackgroundPKEPercent = BossReignsMod.GaugeBackgroundPKE( pos ) ?? 0f;
 				}
 
 				existingGauge.r = BossReignsMod.LastGaugedBackgroundPKEPercent;   // Red channel
-
 				return existingGauge;
 			} );
 
 			PKEMeter.PKEMeterAPI.SetMeterText( ( plr, pos, gauges ) => {
 				(string text, Color color) currText = meterTextFunc?.Invoke( plr, pos, gauges )
 					?? ("", Color.Transparent);
+				if( textTimer <= 0 && currText.text != "" ) {	// yield
+					return currText;
+				}
 
 				if( gauges.r > 0.75f ) {
+					textTimer = 60;
+				}
+
+				if( textTimer > 0 ) {
 					currText.color = Color.Red;
 					currText.color = currText.color * ( 0.5f + ( Main.rand.NextFloat() * 0.5f ) );
 					currText.text = "WARNING - CLASS V+ PKE-EMITTING ENTITIES AT LARGE";
 				}
+
+				textTimer--;
 
 				return currText;
 			} );

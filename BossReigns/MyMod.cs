@@ -23,6 +23,12 @@ namespace BossReigns {
 			BossReignsConfig.Instance = ModContent.GetInstance<BossReignsConfig>();
 		}
 
+		public override void PostSetupContent() {
+			if( ModLoader.GetMod("PKEMeter") != null ) {
+				BossReignsMod.InitializePKE();
+			}
+		}
+
 		public override void Unload() {
 			BossReignsConfig.Instance = null;
 			BossReignsMod.Instance = null;
