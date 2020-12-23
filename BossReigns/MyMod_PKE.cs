@@ -1,5 +1,6 @@
 using System;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
 
 
@@ -12,6 +13,7 @@ namespace BossReigns {
 		////////////////
 
 		public static void InitializePKE() {
+			PKEMeter.Logic.PKEText meterTextFunc = PKEMeter.PKEMeterAPI.GetMeterText();
 			PKEMeter.Logic.PKEGauge gauge = PKEMeter.PKEMeterAPI.GetGauge();
 			int timer = 0;
 
@@ -27,6 +29,19 @@ namespace BossReigns {
 				existingGauge.r = BossReignsMod.LastGaugedBackgroundPKEPercent;   // Red channel
 
 				return existingGauge;
+			} );
+
+			PKEMeter.PKEMeterAPI.SetMeterText( ( plr, pos, gauges ) => {
+				(string text, Color color) currText = meterTextFunc?.Invoke( plr, pos, gauges )
+					?? ("", Color.Transparent);
+
+				if( gauges.r > 0.75f ) {
+					currText.color = Color.Red;
+					currText.color = currText.color * ( 0.5f + ( Main.rand.NextFloat() * 0.5f ) );
+					currText.text = "WARNING - CLASS V+ PKE-EMITTING ENTITIES AT LARGE";
+				}
+
+				return currText;
 			} );
 		}
 
