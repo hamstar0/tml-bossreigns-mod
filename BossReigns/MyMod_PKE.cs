@@ -36,20 +36,21 @@ namespace BossReigns {
 			PKEMeter.PKEMeterAPI.SetMeterText( ( plr, pos, gauges ) => {
 				(string text, Color color) currText = meterTextFunc?.Invoke( plr, pos, gauges )
 					?? ("", Color.Transparent);
+
+				textTimer--;
+
 				if( textTimer <= 0 && currText.text != "" ) {   // yield
 					return currText;
 				}
 
-				if( gauges.r > 0.75f || textTimer > 0 ) {
-					if( gauges.r > 0.75f ) {
-						textTimer = 60;
-					}
+				if( gauges.r > 0.75f ) {
+					textTimer = 60;
+				}
 
+				if( textTimer > 0 ) {
 					currText.color = Color.Red * ( 0.5f + ( Main.rand.NextFloat() * 0.5f ) );
 					currText.text = "WARNING - CLASS V+ PKE-EMITTING ENTITIES AT LARGE";
 				}
-
-				textTimer--;
 
 				return currText;
 			} );
