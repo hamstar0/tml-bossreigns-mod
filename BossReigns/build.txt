@@ -1,7 +1,7 @@
 displayName = Boss Reigns
 author = hamstar
-version = 1.0.1.1
+version = 1.0.2
 modReferences = HamstarHelpers@5.9.6, BossChecklist@1.1.4
-weakReferences = PKEMeter@1.2.0, Orbs@1.2.2, CursedBrambles@0.5.2
+weakReferences = PKEMeter@1.2.1, Orbs@1.2.2, CursedBrambles@0.5.2
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
 homepage = https://forums.terraria.org/index.php?threads/adventure-mode.85140/
