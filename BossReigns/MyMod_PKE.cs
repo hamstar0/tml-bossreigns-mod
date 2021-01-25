@@ -33,6 +33,7 @@ namespace BossReigns {
 
 			PKEMeter.PKEMeterAPI.SetMeterText( "BossReignsArrival", ( plr, pos, gauges ) => {
 				return new PKEMeter.Logic.PKETextMessage(
+					title: "RED: AMBIENT",
 					message: "WARNING - CLASS V+ PKE-EMITTING ENTITIES AT LARGE",
 					color: Color.Red * ( 0.5f + ( Main.rand.NextFloat() * 0.5f ) ),
 					priority: gauges.r >= 0.99f ? 1f : 0f
