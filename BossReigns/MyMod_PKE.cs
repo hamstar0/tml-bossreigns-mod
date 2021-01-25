@@ -14,31 +14,32 @@ namespace BossReigns {
 		////////////////
 
 		public static void InitializePKE() {
-			PKEMeter.Logic.PKEGauge gauge = PKEMeter.PKEMeterAPI.GetGauge();
+			PKEMeter.Logic.PKEGaugesGetter gauge = PKEMeter.PKEMeterAPI.GetGauge();
 
 			int gaugeTimer = 0;
 
 			PKEMeter.PKEMeterAPI.SetGauge( ( plr, pos ) => {
-				(float b, float g, float y, float r) existingGauge = gauge?.Invoke( plr, pos )
-					?? (0f, 0f, 0f, 0f);
+				PKEMeter.Logic.PKEGaugeValues existingGauge = gauge?.Invoke( plr, pos )
+					?? new PKEMeter.Logic.PKEGaugeValues( 0f, 0f, 0f, 0f);
 
 				if( gaugeTimer-- <= 0 ) {
 					gaugeTimer = 10;
 					BossReignsMod.LastGaugedBackgroundPKEPercent = BossReignsMod.GaugeBackgroundPKE( pos ) ?? 0f;
 				}
 
-				existingGauge.r = BossReignsMod.LastGaugedBackgroundPKEPercent;   // Red channel
+				existingGauge.RedPercent = BossReignsMod.LastGaugedBackgroundPKEPercent;   // Red channel
 				return existingGauge;
 			} );
 
 			PKEMeter.PKEMeterAPI.SetMeterText( "BossReignsArrival", ( plr, pos, gauges ) => {
 				return new PKEMeter.Logic.PKETextMessage(
-					title: "RED: AMBIENT",
 					message: "WARNING - CLASS V+ PKE-EMITTING ENTITIES AT LARGE",
 					color: Color.Red * ( 0.5f + ( Main.rand.NextFloat() * 0.5f ) ),
-					priority: gauges.r >= 0.99f ? 1f : 0f
+					priority: gauges.RedPercent >= 0.99f ? 1f : 0f
 				);
 			} );
+
+			PKEMeter.PKEMeterAPI.SetPKERedTooltip( () => "AMBIENT" );
 		}
 
 		////
