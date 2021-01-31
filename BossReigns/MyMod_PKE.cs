@@ -24,7 +24,7 @@ namespace BossReigns {
 
 				if( gaugeTimer-- <= 0 ) {
 					gaugeTimer = 10;
-					BossReignsMod.LastGaugedBackgroundPKEPercent = BossReignsMod.GaugeBackgroundPKE( pos ) ?? 0f;
+					BossReignsMod.LastGaugedBackgroundPKEPercent = BossReignsAPI.GetBackgroundPKEPercent();
 				}
 
 				existingGauge.RedPercent = BossReignsMod.LastGaugedBackgroundPKEPercent;   // Red channel
@@ -40,22 +40,6 @@ namespace BossReigns {
 			} );
 
 			PKEMeter.PKEMeterAPI.SetPKERedTooltip( () => "AMBIENT" );
-		}
-
-		////
-
-		public static float? GaugeBackgroundPKE( Vector2 worldPos ) {
-			var myworld = ModContent.GetInstance<BossReignsWorld>();
-			double elapsedTicks = (double)myworld.ElapsedPresenceTicks;
-
-			var config = BossReignsConfig.Instance;
-			double maxTicks = (double)config.Get<int>( nameof(config.TicksUntilReign) );
-
-			if( config.DebugModeFastTime ) {
-				maxTicks /= 60d;
-			}
-
-			return MathHelper.Clamp( (float)(elapsedTicks / maxTicks), 0f, 1f );
 		}
 	}
 }
