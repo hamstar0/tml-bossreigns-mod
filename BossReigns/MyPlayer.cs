@@ -27,7 +27,7 @@ namespace BossReigns {
 				maxTicks /= 60;
 			}
 
-			bool isReign = myworld.ElapsedPresenceTicks >= maxTicks;
+			bool isReign = myworld.ElapsedReignBuildupTicks >= maxTicks;
 
 			if( ModLoader.GetMod("CursedBrambles") != null ) {
 				BossReignsPlayer.UpdateReignCursedBrambles( this.player, isReign );

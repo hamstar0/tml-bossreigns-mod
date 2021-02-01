@@ -1,15 +1,17 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 using HamstarHelpers.Helpers.Debug;
+using HamstarHelpers.Services.Timers;
 
 
 namespace BossReigns {
 	partial class BossReignsWorld : ModWorld {
-		public int ElapsedPresenceTicks { get; internal set; }
+		public int ElapsedReignBuildupTicks { get; internal set; }
 
 		////
 
@@ -22,7 +24,7 @@ namespace BossReigns {
 		////////////////
 
 		public override void Initialize() {
-			this.ElapsedPresenceTicks = 0;
+			this.ElapsedReignBuildupTicks = 0;
 			this.DownedBossesSnapshot.Clear();
 
 			this.IsLoaded = false;
@@ -36,11 +38,11 @@ namespace BossReigns {
 			var config = BossReignsConfig.Instance;
 
 			if( tag.ContainsKey("elapsed_ticks") ) {
-				this.ElapsedPresenceTicks = tag.GetInt( "elapsed_ticks" );
+				this.ElapsedReignBuildupTicks = tag.GetInt( "elapsed_ticks" );
 			}
 
 			if( config.DebugModeFastTime ) {
-				this.ElapsedPresenceTicks /= 60;
+				this.ElapsedReignBuildupTicks /= 60;
 			}
 
 			if( tag.ContainsKey("bc_snapshot_count") ) {
@@ -56,10 +58,9 @@ namespace BossReigns {
 		}
 
 		public override TagCompound Save() {
-			int bcListCount = this.DownedBossesSnapshot.Count;
 			var tag = new TagCompound {
-				{ "elapsed_ticks", this.ElapsedPresenceTicks },
-				{ "bc_snapshot_count", bcListCount }
+				{ "elapsed_ticks", this.ElapsedReignBuildupTicks },
+				{ "bc_snapshot_count", this.DownedBossesSnapshot.Count }
 			};
 
 			int i = 0;
@@ -76,13 +77,13 @@ namespace BossReigns {
 
 		public override void NetReceive( BinaryReader reader ) {
 			try {
-				this.ElapsedPresenceTicks = reader.ReadInt32();
+				this.ElapsedReignBuildupTicks = reader.ReadInt32();
 			} catch { }
 		}
 
 		public override void NetSend( BinaryWriter writer ) {
 			try {
-				writer.Write( this.ElapsedPresenceTicks );
+				writer.Write( this.ElapsedReignBuildupTicks );
 			} catch { }
 		}
 
@@ -112,7 +113,7 @@ namespace BossReigns {
 			int addedTicks = config.Get<int>( nameof(config.AddedTicksUntilFirstReign) );
 
 			if( addedTicks > 0 ) {
-				this.ElapsedPresenceTicks = -addedTicks;
+				this.ElapsedReignBuildupTicks = -addedTicks;
 				LogHelpers.Log( "Added " + addedTicks + " ticks to timer for initial boss reign." );
 			}
 		}
@@ -125,18 +126,28 @@ namespace BossReigns {
 
 			var config = BossReignsConfig.Instance;
 			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
-			int subTicks = config.Get<int>( nameof( config.TicksRemovedFromEachBossKill ) );
+			int subTicks = config.Get<int>( nameof(config.TicksRemovedFromEachBossKill) );
 
 			if( config.DebugModeFastTime ) {
 				maxTicks /= 60;
 				subTicks /= 60;
 			}
 
-			this.ElapsedPresenceTicks -= subTicks;
+			if( this.ElapsedReignBuildupTicks > (int)((float)maxTicks * 0.75f) ) {
+				Timers.SetTimer( 60, true, () => {
+					Main.NewText(
+						"Powerful entity defeated. Ambient spiritual energy buildup subsides... for now.",
+						new Color( 50, 130, 255 )
+					);
+					return false;
+				} );
+			}
+
+			this.ElapsedReignBuildupTicks -= subTicks;
 
 			if( config.DebugModeInfo ) {
 				Main.NewText( "Boss "+boss+" kill detected. Ticks until reign: "
-					+this.ElapsedPresenceTicks+" of "+maxTicks );
+					+this.ElapsedReignBuildupTicks+" of "+maxTicks );
 			}
 		}
 	}

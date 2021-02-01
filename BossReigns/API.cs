@@ -7,7 +7,7 @@ namespace BossReigns {
 	public class BossReignsAPI {
 		public static float GetBackgroundPKEPercent() {
 			var myworld = ModContent.GetInstance<BossReignsWorld>();
-			double elapsedTicks = (double)myworld.ElapsedPresenceTicks;
+			double elapsedTicks = (double)myworld.ElapsedReignBuildupTicks;
 
 			var config = BossReignsConfig.Instance;
 			double maxTicks = (double)config.Get<int>( nameof( config.TicksUntilReign ) );

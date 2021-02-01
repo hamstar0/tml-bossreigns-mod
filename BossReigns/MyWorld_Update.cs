@@ -9,20 +9,22 @@ using HamstarHelpers.Services.Mods.BossChecklist;
 namespace BossReigns {
 	partial class BossReignsWorld : ModWorld {
 		private void UpdateBossDownedCheck() {
+//DebugHelpers.Print( "downed", string.Join( ", ",
+//	BossChecklistService.BossInfoTable
+//	.Select(kv => kv.Key+":"+kv.Value.IsDowned())
+//) );
 			foreach( (string boss, BossChecklistService.BossInfo info) in BossChecklistService.BossInfoTable ) {
-				if( !info.IsDowned() ) {
-					continue;
-				}
-
-				if( !this.DownedBossesSnapshot.Contains(boss) ) {
-					this.RegisterBossKill( boss );
+				if( info.IsDowned() ) {
+					if( !this.DownedBossesSnapshot.Contains( boss ) ) {
+						this.RegisterBossKill( boss );
+					}
 				}
 			}
 		}
 
 		private void UpdateReignBuildup() {
 			var config = BossReignsConfig.Instance;
-			int minTicks = config.Get<int>( nameof(config.LowestAmountTicksBeforeReign) );
+			int minTicks = config.Get<int>( nameof(config.MinimumTicksElapsed) );
 			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
 
 			if( config.DebugModeFastTime ) {
@@ -30,13 +32,13 @@ namespace BossReigns {
 				maxTicks /= 60;
 			}
 
-			if( this.ElapsedPresenceTicks < minTicks ) {
-				this.ElapsedPresenceTicks = minTicks;
+			if( this.ElapsedReignBuildupTicks < minTicks ) {
+				this.ElapsedReignBuildupTicks = minTicks;
 			}
 
-			this.ElapsedPresenceTicks++;
-			if( this.ElapsedPresenceTicks > maxTicks ) {
-				this.ElapsedPresenceTicks = maxTicks;
+			this.ElapsedReignBuildupTicks++;
+			if( this.ElapsedReignBuildupTicks > maxTicks ) {
+				this.ElapsedReignBuildupTicks = maxTicks;
 			}
 		}
 	}

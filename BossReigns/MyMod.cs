@@ -48,7 +48,7 @@ namespace BossReigns {
 			}
 
 			if( ModLoader.GetMod("Orbs") != null ) {
-				if( myworld.ElapsedPresenceTicks >= maxTicks ) {
+				if( myworld.ElapsedReignBuildupTicks >= maxTicks ) {
 					BossReignsMod.ApplyOrbsBossReignEffects();
 				} else {
 					BossReignsMod.UnapplyOrbsBossReignEffects();
