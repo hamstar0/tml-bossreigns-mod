@@ -13,10 +13,16 @@ namespace BossReigns {
 //	BossChecklistService.BossInfoTable
 //	.Select(kv => kv.Key+":"+kv.Value.IsDowned())
 //) );
+			this.ViableBossSummonItems.Clear();
+
 			foreach( (string boss, BossChecklistService.BossInfo info) in BossChecklistService.BossInfoTable ) {
-				if( info.IsDowned() ) {
-					if( !this.DownedBossesSnapshot.Contains( boss ) ) {
-						this.RegisterBossKill( boss );
+				if( info.IsBoss && !info.IsMiniboss ) {
+					if( info.IsDowned() ) {
+						if( !this.DownedBossesSnapshot.Contains( boss ) ) {
+							this.RegisterBossKill( boss );
+						}
+					} else {
+						this.ViableBossSummonItems.UnionWith( info.SpawnItemTypes );
 					}
 				}
 			}
