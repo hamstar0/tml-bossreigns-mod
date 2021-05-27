@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using HamstarHelpers.Helpers.Debug;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace BossReigns {
@@ -117,7 +117,7 @@ namespace BossReigns {
 
 			if( addedTicks > 0 ) {
 				this.ElapsedReignBuildupTicks = -addedTicks;
-				LogHelpers.Log( "Added " + addedTicks + " ticks to timer for initial boss reign." );
+				LogLibraries.Log( "Added " + addedTicks + " ticks to timer for initial boss reign." );
 			}
 		}
 	}

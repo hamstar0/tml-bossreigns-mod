@@ -22,7 +22,7 @@ namespace BossReigns {
 			
 			if( !BossReignsMod._OldEnableOrbUseUponTiles.HasValue ) {
 				BossReignsMod._OldEnableOrbUseUponTiles = orbConfig.Get<bool>( nameof(orbConfig.EnableOrbUseUponTiles) );
-				BossReignsMod._OldOrbDisabledMessage = orbConfig.Get<string>( nameof(orbConfig.OrbDisabledMessage) );
+				BossReignsMod._OldOrbDisabledMessage = orbConfig.Get<string>( nameof(orbConfig.DisabledOrbMessage) );
 			}
 
 			orbConfig.SetOverride<bool>( "EnableOrbUseUponTiles", false );

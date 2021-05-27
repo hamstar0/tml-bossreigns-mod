@@ -15,11 +15,8 @@ namespace BossReigns {
 
 		////////////////
 
-		public BossReignsMod() {
-			BossReignsMod.Instance = this;
-		}
-
 		public override void Load() {
+			BossReignsMod.Instance = this;
 			BossReignsConfig.Instance = ModContent.GetInstance<BossReignsConfig>();
 		}
 
