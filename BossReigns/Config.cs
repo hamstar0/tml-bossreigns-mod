@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using ModLibsCore.Classes.UI.ModConfig;
 
@@ -11,7 +12,7 @@ namespace BossReigns {
 
 
 	public partial class BossReignsConfig : ModConfig {
-		public static BossReignsConfig Instance { get; internal set; }
+		public static BossReignsConfig Instance => ModContent.GetInstance<BossReignsConfig>();
 
 
 

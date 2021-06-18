@@ -17,7 +17,6 @@ namespace BossReigns {
 
 		public override void Load() {
 			BossReignsMod.Instance = this;
-			BossReignsConfig.Instance = ModContent.GetInstance<BossReignsConfig>();
 		}
 
 		public override void PostSetupContent() {
@@ -27,7 +26,6 @@ namespace BossReigns {
 		}
 
 		public override void Unload() {
-			BossReignsConfig.Instance = null;
 			BossReignsMod.Instance = null;
 		}
 
