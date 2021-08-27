@@ -37,8 +37,8 @@ namespace BossReigns {
 		////
 		
 		[Range( 60 * 60, 60 * 60 * 24 * 100 )]
-		[DefaultValue( 60 * 60 * 24 * 4 )]
-		public int AddedTicksUntilFirstReign { get; set; } = 60 * 60 * 24 * 4;	// 4 days
+		[DefaultValue( 60 * 60 * 24 * 5 )]
+		public int AddedTicksUntilFirstReign { get; set; } = 60 * 60 * 24 * 5;	// 5 days
 
 		[Range( 60 * 60, 60 * 60 * 24 * 100 )]
 		[DefaultValue( 60 * 60 * 24 * 3 )]
