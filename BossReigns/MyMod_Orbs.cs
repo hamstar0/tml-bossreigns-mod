@@ -25,20 +25,26 @@ namespace BossReigns {
 				BossReignsMod._OldOrbDisabledMessage = orbConfig.Get<string>( nameof(orbConfig.DisabledOrbMessage) );
 			}
 
-			orbConfig.SetOverride<bool>( "EnableOrbUseUponTiles", false );
-			orbConfig.SetOverride<string>( "OrbDisabledMessage", "PKE interference disrupts orb use." );
+			orbConfig.SetOverride<bool>( nameof(orbConfig.EnableOrbUseUponTiles), false );
+			orbConfig.SetOverride<string>( nameof(orbConfig.DisabledOrbMessage), "PKE interference disrupts orb use." );
 		}
 
 		public static void UnapplyOrbsBossReignEffects() {
 			var orbConfig = Orbs.OrbsConfig.Instance;
 
 			if( BossReignsMod._OldEnableOrbUseUponTiles.HasValue ) {
-				orbConfig.SetOverride<bool>( "EnableOrbUseUponTiles", BossReignsMod._OldEnableOrbUseUponTiles.Value );
+				orbConfig.SetOverride<bool>(
+					nameof(orbConfig.EnableOrbUseUponTiles ),
+					BossReignsMod._OldEnableOrbUseUponTiles.Value
+				);
 				BossReignsMod._OldEnableOrbUseUponTiles = null;
 			}
 
 			if( BossReignsMod._OldOrbDisabledMessage != null ) {
-				orbConfig.SetOverride<string>( "OrbDisabledMessage", BossReignsMod._OldOrbDisabledMessage );
+				orbConfig.SetOverride<string>(
+					nameof(orbConfig.DisabledOrbMessage),
+					BossReignsMod._OldOrbDisabledMessage
+				);
 				BossReignsMod._OldOrbDisabledMessage = null;
 			}
 		}
