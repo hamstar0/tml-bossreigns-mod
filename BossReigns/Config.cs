@@ -50,6 +50,13 @@ namespace BossReigns {
 
 		[Range( 60 * 60, 60 * 60 * 24 * 100 )]
 		[DefaultValue( 60 * 60 * 24 * 4 )]
-		public int TicksRemovedFromEachBossKill { get; set; } = 60 * 60 * 24 * 4;	// 4 days
+		public int TicksRemovedFromEachBossKill { get; set; } = 60 * 60 * 24 * 4;   // 4 days
+
+		////
+
+		[Range( -100f, 100f )]
+		[DefaultValue( 0.25f )]
+		[CustomModConfigItem( typeof(MyFloatInputElement) )]
+		public float ReignNecrotisDrainPerPer10Min { get; set; } = 0.25f;	// 4 days
 	}
 }

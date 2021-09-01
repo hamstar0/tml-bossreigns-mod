@@ -40,6 +40,10 @@ namespace BossReigns {
 						Main.NewText( "Dark forces of the land seal this chest.", Color.Yellow );
 					}
 				}
+
+				if( BossReignsMod.Instance.NecrotisMod != null ) {
+					BossReignsPlayer.UpdateReignForNecrotis_WeakRef( this.player );
+				}
 			}
 		}
 

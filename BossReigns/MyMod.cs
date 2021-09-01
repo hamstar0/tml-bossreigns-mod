@@ -14,9 +14,17 @@ namespace BossReigns {
 
 
 		////////////////
+		
+		public Mod NecrotisMod { get; private set; }
+
+
+
+		////////////////
 
 		public override void Load() {
 			BossReignsMod.Instance = this;
+
+			this.NecrotisMod = ModLoader.GetMod( "Necrotis" );
 		}
 
 		public override void PostSetupContent() {

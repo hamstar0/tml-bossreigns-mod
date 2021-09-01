@@ -29,6 +29,9 @@
     <Reference Include="ModLibsInterMod">
       <HintPath>..\..\..\Mod Libs\Mod Libs Services Inter-Mod\Project\ModLibsInterMod\bin\Release\net452\ModLibsInterMod.dll</HintPath>
     </Reference>
+    <Reference Include="Necrotis">
+      <HintPath>..\..\..\Necrotis\Project\Necrotis\bin\Release\net452\Necrotis.dll</HintPath>
+    </Reference>
     <Reference Include="Orbs">
       <HintPath>..\..\..\Orbs\Project\Orbs\bin\Release\net452\Orbs.dll</HintPath>
     </Reference>
