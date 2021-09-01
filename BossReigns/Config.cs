@@ -57,6 +57,6 @@ namespace BossReigns {
 		[Range( -100f, 100f )]
 		[DefaultValue( 0.25f )]
 		[CustomModConfigItem( typeof(MyFloatInputElement) )]
-		public float ReignNecrotisDrainPerPer10Min { get; set; } = 0.25f;	// 4 days
+		public float ReignNecrotisAnimaDrainPerPer10Min { get; set; } = 0.25f;	// 4 days
 	}
 }
