@@ -20,6 +20,9 @@
     <Reference Include="CursedBrambles">
       <HintPath>..\..\..\Cursed Brambles\Project\CursedBrambles\bin\Release\net452\CursedBrambles.dll</HintPath>
     </Reference>
+    <Reference Include="ModLibsCamera">
+      <HintPath>..\..\..\Mod Libs\Mod Libs Services Camera Controls\Project\ModLibsCamera\bin\Release\net452\ModLibsCamera.dll</HintPath>
+    </Reference>
     <Reference Include="ModLibsCore">
       <HintPath>..\..\..\Mod Libs\Mod Libs Core\Project\ModLibsCore\bin\Release\net452\ModLibsCore.dll</HintPath>
     </Reference>

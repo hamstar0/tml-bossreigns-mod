@@ -8,9 +8,9 @@ namespace BossReigns {
 		private static void UpdateReignForNecrotis_WeakRef( Player player ) {
 			var config = BossReignsConfig.Instance;
 			float drainPer10Min = config.Get<float>( nameof(config.ReignNecrotisDrainPerPer10Min) );
-			float drainPerTick = drainPer10Min / 10f;	// 10 min
-			drainPerTick /= 60f;	// 1 min
-			drainPerTick /= 60f;	// 1 tick
+			float drainPerMin = drainPer10Min / 10f;
+			float drainPerSecond = drainPerMin / 60f;
+			float drainPerTick = drainPerSecond / 60f;
 
 			Necrotis.NecrotisAPI.SubtractAnimaPercentFromPlayer(
 				player: player,

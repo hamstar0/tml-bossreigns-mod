@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
+using ModLibsCamera.Classes.CameraAnimation;
 
 
 namespace BossReigns {
@@ -9,6 +10,8 @@ namespace BossReigns {
 		private bool IsReignSinceLastTick = false;
 
 		private int ReignTimer = 0;
+
+		private int ShakeIntermissionTimer = 0;
 
 
 
@@ -44,6 +47,8 @@ namespace BossReigns {
 				if( BossReignsMod.Instance.NecrotisMod != null ) {
 					BossReignsPlayer.UpdateReignForNecrotis_WeakRef( this.player );
 				}
+
+				this.UpdateReignFx();
 			}
 		}
 
@@ -60,6 +65,26 @@ namespace BossReigns {
 
 			if( ModLoader.GetMod("CursedBrambles") != null ) {
 				BossReignsPlayer.UpdateReignForCursedBrambles_WeakRef( this.player, isReign );
+			}
+		}
+
+
+		////////////////
+
+		private void UpdateReignFx() {
+			if( this.ShakeIntermissionTimer-- <= 0 ) {
+				this.ShakeIntermissionTimer = Main.rand.Next( 60 * 5, 60 * 20 );
+
+				if( CameraShaker.Current == null || !CameraShaker.Current.IsAnimating() ) {
+					CameraShaker.Current = new CameraShaker(
+						name: "BossReignQuakes",
+						peakMagnitude: 0.5f + Main.rand.NextFloat(),
+						toDuration: 60,
+						lingerDuration: 60,
+						froDuration: 60,
+						isSmoothed: true
+					);
+				}
 			}
 		}
 	}
