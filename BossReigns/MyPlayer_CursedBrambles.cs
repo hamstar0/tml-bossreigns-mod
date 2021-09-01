@@ -4,7 +4,7 @@ using Terraria.ModLoader;
 
 namespace BossReigns {
 	partial class BossReignsPlayer : ModPlayer {
-		public static void UpdateReignCursedBrambles( Player player, bool isReign ) {
+		public static void UpdateReignForCursedBrambles_WeakRef( Player player, bool isReign ) {
 			var config = BossReignsConfig.Instance;
 			if( !config.Get<bool>( nameof(config.CreateUndergroundCursedBramblesDuringReign) ) ) {
 				return;

@@ -14,7 +14,7 @@ namespace BossReigns {
 			}
 
 			string modCtx = "[c/FFFF88:Boss Reigns] - ";
-			var tip = new TooltipLine( this.mod, "BossReignsActive", modCtx + "This item resonates with the waves of darkness..." );
+			var tip = new TooltipLine( this.mod, "BossReignsActive", modCtx + "This item pulses violently in anticipation..." );
 
 			tooltips.Add( tip );
 		}

@@ -1,12 +1,12 @@
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
-using ModLibsCore.Services.Timers;
+using ModLibsCore.Libraries.Debug;
 
 
 namespace BossReigns {
 	partial class BossReignsPlayer : ModPlayer {
-		private bool IsReign = false;
+		private bool IsReignSinceLastTick = false;
 
 		private int ReignTimer = 0;
 
@@ -15,42 +15,47 @@ namespace BossReigns {
 		////////////////
 
 		public override void PreUpdate() {
-			string timerName = "BossReignsBrambles_" + this.player.whoAmI;
+			var myworld = ModContent.GetInstance<BossReignsWorld>();
+			bool isReign = myworld.IsReign();
 
 			if( this.ReignTimer-- == 0 ) {
 				this.ReignTimer = 5;
-				this.UpdateReignPer5Ticks();
+				this.UpdateReignPer5Ticks( isReign );
 			}
+
+			this.UpdateReignPerTick( isReign );
+
+			this.IsReignSinceLastTick = isReign;
 		}
 
 
 		////////////////
 
-		private void UpdateReignPer5Ticks() {
-			var myworld = ModContent.GetInstance<BossReignsWorld>();
-			var config = BossReignsConfig.Instance;
-			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
-
-			if( config.DebugModeFastTime ) {
-				maxTicks /= 60;
-			}
-
-			bool isReign = myworld.ElapsedReignBuildupTicks >= maxTicks;
-
+		private void UpdateReignPerTick( bool isReign ) {
 			if( isReign ) {
-				if( !this.IsReign ) {
-					Main.NewText( "Waves of darkness begin emanating from the land. A powerful new entity now reigns in your world.", Color.OrangeRed );
+				if( this.player.townNPCs == 0 ) {
+					if( this.player.chest >= 0 ) {
+						this.player.chest = -1;
+
+						Main.NewText( "Dark forces of the land seal this chest.", Color.Yellow );
+					}
+				}
+			}
+		}
+
+		private void UpdateReignPer5Ticks( bool isReign ) {
+			if( isReign ) {
+				if( !this.IsReignSinceLastTick ) {
+					Main.NewText( "A fell presence can be felt. A powerful, unconquered entity now reigns in your world.", Color.OrangeRed );
 				}
 			} else {
-				if( this.IsReign ) {
-					Main.NewText( "Waves of darkness subside... for now.", new Color(175, 75, 255) );
+				if( this.IsReignSinceLastTick ) {
+					Main.NewText( "The fell presence has vanished... for now.", new Color(175, 75, 255) );
 				}
 			}
 
-			this.IsReign = isReign;
-
 			if( ModLoader.GetMod("CursedBrambles") != null ) {
-				BossReignsPlayer.UpdateReignCursedBrambles( this.player, isReign );
+				BossReignsPlayer.UpdateReignForCursedBrambles_WeakRef( this.player, isReign );
 			}
 		}
 	}
