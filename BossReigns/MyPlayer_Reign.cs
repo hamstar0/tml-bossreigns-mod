@@ -7,7 +7,23 @@ using ModLibsCamera.Classes.CameraAnimation;
 
 namespace BossReigns {
 	partial class BossReignsPlayer : ModPlayer {
+		private bool _IsReignSinceLastTick = false;
+
+
+
+		////////////////
+
 		private void UpdateReignPerTick( bool isReign ) {
+			if( isReign ) {
+				if( !this._IsReignSinceLastTick ) {
+					Main.NewText( "A fell presence can be felt. A powerful, unconquered entity now reigns in your world.", Color.OrangeRed );
+				}
+			} else {
+				if( this._IsReignSinceLastTick ) {
+					Main.NewText( "The fell presence has vanished... for now.", new Color( 175, 75, 255 ) );
+				}
+			}
+
 			if( isReign ) {
 				if( this.player.townNPCs == 0 ) {
 					if( this.player.chest >= 0 ) {
@@ -23,19 +39,13 @@ namespace BossReigns {
 
 				this.UpdateReignFx();
 			}
+
+			//
+
+			this._IsReignSinceLastTick = isReign;
 		}
 
 		private void UpdateReignPer5Ticks( bool isReign ) {
-			if( isReign ) {
-				if( !this.IsReignSinceLastTick ) {
-					Main.NewText( "A fell presence can be felt. A powerful, unconquered entity now reigns in your world.", Color.OrangeRed );
-				}
-			} else {
-				if( this.IsReignSinceLastTick ) {
-					Main.NewText( "The fell presence has vanished... for now.", new Color(175, 75, 255) );
-				}
-			}
-
 			if( ModLoader.GetMod("CursedBrambles") != null ) {
 				BossReignsPlayer.UpdateReignForCursedBrambles_WeakRef( this.player, isReign );
 			}

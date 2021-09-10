@@ -5,8 +5,6 @@ using ModLibsCore.Libraries.Debug;
 
 namespace BossReigns {
 	partial class BossReignsPlayer : ModPlayer {
-		private bool IsReignSinceLastTick = false;
-
 		private int ReignTimer = 0;
 
 		private int ShakeIntermissionTimer = 0;
@@ -25,8 +23,6 @@ namespace BossReigns {
 			}
 
 			this.UpdateReignPerTick( isReign );
-
-			this.IsReignSinceLastTick = isReign;
 		}
 	}
 }
