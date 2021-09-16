@@ -11,7 +11,13 @@ namespace BossReigns {
 			}
 
 			if( isReign ) {
-				CursedBrambles.CursedBramblesAPI.SetPlayerToCreateBrambleWake( player, true, 64, 15 );
+				CursedBrambles.CursedBramblesAPI.SetPlayerToCreateBrambleWake(
+					player: player,
+					isElevationChecked: true,
+					radius: 64,
+					tickRate: 15,
+					validateAt: CursedBrambles.CursedBramblesAPI.CreatePlayerAvoidingBrambleValidator( 12 )
+				);
 			} else {
 				CursedBrambles.CursedBramblesAPI.UnsetPlayerBrambleWakeCreating( player );
 			}
