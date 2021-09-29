@@ -13,7 +13,7 @@ namespace BossReigns {
 			Necrotis.NecrotisAPI.SubtractAnimaPercentFromPlayer(
 				player: player,
 				percent: drainPerTick,
-				quiet: true,
+				noPopupNumbers: true,
 				sync: false
 			);
 		}
