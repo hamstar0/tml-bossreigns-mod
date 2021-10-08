@@ -14,6 +14,7 @@ namespace BossReigns {
 				player: player,
 				percent: drainPerTick,
 				noPopupNumbers: true,
+				context: "Boss Reign",
 				sync: false
 			);
 		}
