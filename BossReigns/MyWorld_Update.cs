@@ -28,7 +28,17 @@ namespace BossReigns {
 			}
 		}
 
-		private void UpdateReignBuildup() {
+		private void UpdateReignBuildupIf() {
+			if( !this.IsLoaded ) {
+				return;
+			}
+
+			if( this.IsPaused ) {
+				return;
+			}
+
+			//
+
 			var config = BossReignsConfig.Instance;
 			int minTicks = config.Get<int>( nameof(config.MinimumTicksElapsed) );
 			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
@@ -43,6 +53,7 @@ namespace BossReigns {
 			}
 
 			this.ElapsedReignBuildupTicks++;
+
 			if( this.ElapsedReignBuildupTicks > maxTicks ) {
 				this.ElapsedReignBuildupTicks = maxTicks;
 			}

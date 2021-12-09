@@ -15,6 +15,10 @@ namespace BossReigns {
 
 		public int ElapsedReignBuildupTicks { get; internal set; }
 
+		////
+
+		public bool IsPaused { get; internal set; } = false;
+
 
 		////////////////
 
@@ -40,6 +44,10 @@ namespace BossReigns {
 
 			var config = BossReignsConfig.Instance;
 
+			if( tag.ContainsKey("is_paused") ) {
+				this.IsPaused = tag.GetBool( "is_paused" );
+			}
+
 			if( tag.ContainsKey("elapsed_ticks") ) {
 				this.ElapsedReignBuildupTicks = tag.GetInt( "elapsed_ticks" );
 			}
@@ -62,6 +70,7 @@ namespace BossReigns {
 
 		public override TagCompound Save() {
 			var tag = new TagCompound {
+				{ "is_paused", this.IsPaused },
 				{ "elapsed_ticks", this.ElapsedReignBuildupTicks },
 				{ "bc_snapshot_count", this.DownedBossesSnapshot.Count }
 			};
@@ -80,12 +89,14 @@ namespace BossReigns {
 
 		public override void NetReceive( BinaryReader reader ) {
 			try {
+				this.IsPaused = reader.ReadBoolean();
 				this.ElapsedReignBuildupTicks = reader.ReadInt32();
 			} catch { }
 		}
 
 		public override void NetSend( BinaryWriter writer ) {
 			try {
+				writer.Write( this.IsPaused );
 				writer.Write( this.ElapsedReignBuildupTicks );
 			} catch { }
 		}
@@ -93,17 +104,14 @@ namespace BossReigns {
 
 		////////////////
 		
-		 private int _BossCheckTimer = 0;
+		 private int _BossCheckStaggeredLoopTimer = 0;
 
 		public override void PreUpdate() {
-			if( !this.IsLoaded ) {
-				return;
-			}
+			this.UpdateReignBuildupIf();
 
-			this.UpdateReignBuildup();
+			if( this._BossCheckStaggeredLoopTimer++ > 15 ) {
+				this._BossCheckStaggeredLoopTimer = 0;
 
-			if( this._BossCheckTimer++ > 15 ) {
-				this._BossCheckTimer = 0;
 				this.UpdateBossDownedCheck();
 			}
 		}
@@ -117,6 +125,7 @@ namespace BossReigns {
 
 			if( addedTicks > 0 ) {
 				this.ElapsedReignBuildupTicks = -addedTicks;
+
 				LogLibraries.Log( "Added " + addedTicks + " ticks to timer for initial boss reign." );
 			}
 		}
