@@ -4,6 +4,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
+using ModLibsCore.Libraries.TModLoader;
 using BossReigns.Net;
 
 
@@ -37,10 +38,14 @@ namespace BossReigns {
 
 			myworld.IsPaused = isPaused;
 
-			if( Main.netMode == NetmodeID.Server ) {
-				ReignBuildupPauseProtocol.SendToAllClients( isPaused );
+			if( LoadLibraries.IsWorldLoaded() ) {
+				if( Main.netMode == NetmodeID.Server ) {
+					ReignBuildupPauseProtocol.SendToAllClients( isPaused );
+				} else {
+					//LogLibraries.Warn( "Not server." );
+				}
 			} else {
-				LogLibraries.Warn( "Not server." );
+				LogLibraries.Alert( "Boss Reigns paused, but world is not loaded." );
 			}
 		}
 	}

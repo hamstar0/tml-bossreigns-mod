@@ -22,6 +22,7 @@ namespace BossReigns {
 				PKEMeter.Logic.PKEGaugeValues existingGauge = gauge?.Invoke( plr, pos )
 					?? new PKEMeter.Logic.PKEGaugeValues( 0f, 0f, 0f, 0f);
 
+				// Update gauge every 1/6s
 				if( gaugeTimer-- <= 0 ) {
 					gaugeTimer = 10;
 					BossReignsMod.LastGaugedBackgroundPKEPercent = BossReignsAPI.GetBackgroundPKEPercent();

@@ -1,6 +1,6 @@
 displayName = Boss Reigns
 author = hamstar
-version = 1.3.1
+version = 1.3.1.1
 modReferences = ModLibsCamera@1.0.0, ModLibsCore@1.2.0, ModLibsGeneral@1.2.0, ModLibsInterMod@1.0.0, BossChecklist@1.1.4
 weakReferences = CursedBrambles@1.0.0, Necrotis@2.0.0, PKEMeter@1.6.0, Orbs@1.6.0
 buildIgnore = *.csproj, *.user, *.bat, obj\*, bin\*, .vs\*, .git\*
