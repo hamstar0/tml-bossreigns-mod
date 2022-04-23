@@ -107,12 +107,12 @@ namespace BossReigns {
 		 private int _BossCheckStaggeredLoopTimer = 0;
 
 		public override void PreUpdate() {
-			this.UpdateReignBuildupIf();
+			this.UpdateReignBuildup_If();
 
 			if( this._BossCheckStaggeredLoopTimer++ > 15 ) {
 				this._BossCheckStaggeredLoopTimer = 0;
 
-				this.UpdateBossDownedCheck();
+				this.UpdateBossDownedStatesSnapshot();
 			}
 		}
 

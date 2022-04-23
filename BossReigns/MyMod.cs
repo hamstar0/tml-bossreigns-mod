@@ -41,21 +41,35 @@ namespace BossReigns {
 		////////////////
 
 		public override void PostUpdateEverything() {
-			var myworld = ModContent.GetInstance<BossReignsWorld>();
-
-			var config = BossReignsConfig.Instance;
-			int maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
-
-			if( config.DebugModeFastTime ) {
-				maxTicks /= 60;
-			}
-
 			if( ModLoader.GetMod("Orbs") != null ) {
-				if( myworld.ElapsedReignBuildupTicks >= maxTicks ) {
+				if( BossReignsAPI.GetReignBuildup(out int maxTicks) >= maxTicks ) {
 					BossReignsMod.ApplyOrbsBossReignEffects();
 				} else {
 					BossReignsMod.UnapplyOrbsBossReignEffects();
 				}
+			}
+		}
+	}
+	class BossReignsTile : GlobalTile {
+		public override void KillTile( int i, int j, int type, ref bool fail, ref bool effectOnly, ref bool noItem ) {
+			if( ModLoader.GetMod( "Orbs" ) != null ) {
+				return;
+			}
+
+			//
+
+			var config = BossReignsConfig.Instance;
+
+			if( !config.Get<bool>( nameof(config.BlockMiningDuringReignIfNoOrbs) ) ) {
+				return;
+			}
+
+			//
+
+			if( BossReignsAPI.GetReignBuildup(out int maxTicks) >= maxTicks ) {
+				fail = true;
+				effectOnly = true;
+				noItem = true;
 			}
 		}
 	}

@@ -25,7 +25,25 @@ namespace BossReigns {
 		}
 
 
-		////
+		////////////////
+		
+		public static int GetReignBuildup( out int maxTicks ) {
+			var myworld = ModContent.GetInstance<BossReignsWorld>();
+
+			var config = BossReignsConfig.Instance;
+			maxTicks = config.Get<int>( nameof(config.TicksUntilReign) );
+
+			if( config.DebugModeFastTime ) {
+				maxTicks /= 60;
+			}
+
+			//
+
+			return myworld.ElapsedReignBuildupTicks;
+		}
+
+
+		////////////////
 
 		public static bool IsReignBuildupPaused() {
 			var myworld = ModContent.GetInstance<BossReignsWorld>();

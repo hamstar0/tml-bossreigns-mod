@@ -30,6 +30,9 @@ namespace BossReigns {
 		////
 
 		[DefaultValue( true )]
+		public bool BlockMiningDuringReignIfNoOrbs { get; set; } = true;
+
+		[DefaultValue( true )]
 		public bool BlockOrbUseDuringReign { get; set; } = true;
 		
 		public bool CreateUndergroundCursedBramblesDuringReign { get; set; } = false;

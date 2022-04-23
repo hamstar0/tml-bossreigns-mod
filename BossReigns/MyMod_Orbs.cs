@@ -12,11 +12,14 @@ namespace BossReigns {
 
 		public static void ApplyOrbsBossReignEffects() {
 			var config = BossReignsConfig.Instance;
+
 			if( !config.Get<bool>( nameof(config.BlockOrbUseDuringReign) ) ) {
 				BossReignsMod.UnapplyOrbsBossReignEffects();
 
 				return;
 			}
+
+			//
 
 			var orbConfig = Orbs.OrbsConfig.Instance;
 			
