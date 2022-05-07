@@ -28,7 +28,9 @@ namespace BossReigns {
 					BossReignsMod.LastGaugedBackgroundPKEPercent = BossReignsAPI.GetBackgroundPKEPercent();
 				}
 
-				existingGauge.RedPercent = BossReignsMod.LastGaugedBackgroundPKEPercent;   // Red channel
+				existingGauge.RedRealPercent = BossReignsMod.LastGaugedBackgroundPKEPercent;   // Red channel
+				existingGauge.RedSeenPercent = existingGauge.RedRealPercent;
+
 				return existingGauge;
 			} );
 
@@ -36,7 +38,7 @@ namespace BossReigns {
 				return new PKEMeter.Logic.PKETextMessage(
 					message: "WARNING - CLASS V+ PKE-EMITTING ENTITIES AT LARGE",
 					color: Color.Red * (0.5f + ( Main.rand.NextFloat() * 0.5f) ),
-					priority: gauges.RedPercent >= 0.99f ? 1f : 0f
+					priority: gauges.RedRealPercent >= 0.99f ? 1f : 0f
 				);
 			} );
 
