@@ -69,7 +69,7 @@ namespace BossReigns {
 				return;
 			}
 			// Avoids potential Moon Lord softlock
-			if( BossReignsWorld.IsGatewayBossAlone(NPCID.MoonLordCore) ) {
+			if( BossReignsWorld.IsGatewayBossAlone(NPCID.MoonLordHead) ) {  //NPCID.MoonLordCore
 				return;
 			}
 
