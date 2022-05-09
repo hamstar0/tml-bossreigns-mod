@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
@@ -6,14 +7,30 @@ using Terraria.ModLoader;
 using ModLibsCore.Libraries.Debug;
 using ModLibsCore.Libraries.DotNET.Extensions;
 using ModLibsInterMod.Services.Mods.BossChecklist;
+using ModLibsCore.Libraries.TModLoader;
 
 
 namespace BossReigns {
 	partial class BossReignsWorld : ModWorld {
-		public static bool IsGatewayBossAlone( int bossNpcType ) {
-			BossChecklistService.BossInfo gateBossInfo = BossChecklistService.BossInfoTable
-				.Values
-				.First( i => i.SegmentNpcIDs.Contains(bossNpcType) );
+		public static bool IsGatewayBossAlone( int bossNpcType, out bool exists ) {
+			IEnumerable<BossChecklistService.BossInfo> bossInfos = BossChecklistService.BossInfoTable
+				.Values;
+			BossChecklistService.BossInfo gateBossInfo = bossInfos
+				.FirstOrDefault( bi => bi.SegmentNpcIDs.Contains(bossNpcType) );
+
+			exists = gateBossInfo != null;
+
+			//string uid = NPCID.GetUniqueKey( bossNpcType );
+			//exists = BossChecklistService.BossInfoTable
+			//	.TryGetValue( uid, out BossChecklistService.BossInfo gateBossInfo );
+
+			if( !exists ) {
+				LogLibraries.AlertOnce( $"Could not find boss info for {NPCID.GetUniqueKey(bossNpcType)} ({bossNpcType})" );
+
+				return false;
+			}
+
+			//
 
 			if( gateBossInfo.IsDowned() ) {
 				return false;
@@ -54,7 +71,7 @@ namespace BossReigns {
 
 
 		private void UpdateReignBuildup_If() {
-			if( !this.IsLoaded ) {
+			if( !this.IsLoaded && LoadLibraries.IsWorldLoaded() ) {
 				return;
 			}
 
@@ -65,11 +82,17 @@ namespace BossReigns {
 			//
 
 			// Avoids potential Wall of Flesh softlock
-			if( BossReignsWorld.IsGatewayBossAlone(NPCID.WallofFlesh) ) {
+			if( BossReignsWorld.IsGatewayBossAlone(NPCID.WallofFlesh, out _) ) {
+				return;
+			}
+			if( BossReignsWorld.IsGatewayBossAlone(NPCID.WallofFleshEye, out _) ) {	//?
 				return;
 			}
 			// Avoids potential Moon Lord softlock
-			if( BossReignsWorld.IsGatewayBossAlone(NPCID.MoonLordHead) ) {  //NPCID.MoonLordCore
+			if( BossReignsWorld.IsGatewayBossAlone(NPCID.MoonLordHead, out _) ) {
+				return;
+			}
+			if( BossReignsWorld.IsGatewayBossAlone(NPCID.MoonLordCore, out _) ) {	//?
 				return;
 			}
 
