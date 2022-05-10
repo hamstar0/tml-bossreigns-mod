@@ -82,10 +82,7 @@ namespace BossReigns {
 			//
 
 			// Avoids potential Wall of Flesh softlock
-			if( BossReignsWorld.IsGatewayBossAlone(NPCID.WallofFlesh, out _) ) {
-				return;
-			}
-			if( BossReignsWorld.IsGatewayBossAlone(NPCID.WallofFleshEye, out _) ) {	//?
+			if( BossReignsWorld.IsGatewayBossAlone(NPCID.WallofFlesh, out _) ) {    //NPCID.WallofFleshEye?
 				return;
 			}
 			// Avoids potential Moon Lord softlock
