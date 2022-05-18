@@ -34,7 +34,7 @@ namespace BossReigns {
 				return existingGauge;
 			} );
 
-			PKEMeter.PKEMeterAPI.SetMeterText( "BossReignsArrival", ( plr, pos, gauges ) => {
+			PKEMeter.PKEMeterAPI.SetMeterText( PKEMeter.Logic.PKEGaugeType.Red, ( plr, pos, gauges ) => {
 				return new PKEMeter.Logic.PKETextMessage(
 					message: "WARNING - CLASS V+ PKE-EMITTING ENTITIES AT LARGE",
 					color: Color.Red * (0.5f + ( Main.rand.NextFloat() * 0.5f) ),
