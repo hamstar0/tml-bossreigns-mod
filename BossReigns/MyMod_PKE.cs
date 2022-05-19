@@ -30,6 +30,7 @@ namespace BossReigns {
 
 				existingGauge.RedRealPercent = BossReignsMod.LastGaugedBackgroundPKEPercent;   // Red channel
 				existingGauge.RedSeenPercent = existingGauge.RedRealPercent;
+				existingGauge.IsRedInsignificant = true;
 
 				return existingGauge;
 			} );
