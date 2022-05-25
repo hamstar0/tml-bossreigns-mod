@@ -14,7 +14,7 @@ namespace BossReigns {
 				CursedBrambles.CursedBramblesAPI.SetPlayerToCreateBrambleWake(
 					player: player,
 					isElevationChecked: true,
-					radius: 64,
+					tileRadius: 64,
 					tickRate: 15,
 					validateAt: CursedBrambles.CursedBramblesAPI.CreatePlayerAvoidingBrambleValidator( 12 )
 				);
